@@ -1,96 +1,89 @@
 # Credit Risk Analysis Model
 
-This project is an advanced model for credit risk analysis, developed with **Streamlit**, **scikit-learn**, **XGBoost**, **SHAP**, **LIME**, and other data science libraries. It enables data loading, feature engineering, predictive modeling, and model explainability, including interactive visualizations and scenario simulations.
+## 📌 Overview
 
-## 🚀 Features
+This project is an advanced machine learning-based model for **credit risk analysis**, leveraging **Streamlit**, **scikit-learn**, **XGBoost**, **SHAP**, **LIME**, and other data science libraries. It facilitates **data ingestion**, **feature engineering**, **predictive modeling**, and **model explainability**, featuring interactive visualizations and scenario-based simulations.
 
-- **🐂 Data Upload & Exploratory Data Analysis**
-  - Supports CSV file uploads with automatic preprocessing.
-  - Descriptive statistics and interactive visualizations of financial variables.
+## 🚀 Key Features
 
-- **💊 Predictive Modeling & Evaluation**
-  - Implementation of supervised models for default prediction.
-  - Supported algorithms: XGBoost, RandomForest, Gradient Boosting, AdaBoost, SVM, MLP, Naïve Bayes, and Logistic Regression.
-  - Data balancing techniques such as SMOTE.
-  - Evaluation metrics: Accuracy, AUC-ROC, Precision, Recall, F1-score, Confusion Matrix, and Lift Curve.
-  - Dynamic hyperparameter tuning for model optimization.
+### 📂 Data Upload & Exploratory Data Analysis (EDA)
+- Supports **CSV file uploads** with automated preprocessing.
+- Provides **descriptive statistics** and **interactive visualizations** for financial variables.
+- Detects and handles **missing values**, **outliers**, and **feature correlations**.
 
-- **🔎 Explainability & Interpretation**
-  - Model interpretation using SHAP, LIME, and variable impact analysis.
-  - Visualizations such as SHAP Summary Plot, Dependence Plot, Waterfall Plot, and Force Plot.
-  - Helps understand model decisions for each prediction.
+### 💡 Predictive Modeling & Evaluation
+- Implements **supervised machine learning models** for credit default prediction.
+- Supports multiple algorithms:
+  - **XGBoost, RandomForest, Gradient Boosting, AdaBoost, SVM, MLP, Naïve Bayes, and Logistic Regression**.
+- Integrates **SMOTE** for handling imbalanced datasets.
+- Includes performance evaluation metrics:
+  - **Accuracy, AUC-ROC, Precision, Recall, F1-score, Confusion Matrix, and Lift Curve**.
+- Offers **hyperparameter tuning** to optimize model performance dynamically.
 
-- **⚙️ Simulations & Sensitivity Analysis**
-  - "What-if" scenarios to evaluate the impact of key variables.
-  - Robustness testing with varying customer characteristics.
+### 🔍 Explainability & Model Interpretation
+- Uses **SHAP** and **LIME** to explain individual and global model decisions.
+- Provides intuitive visualizations:
+  - **SHAP Summary Plot, Dependence Plot, Waterfall Plot, and Force Plot**.
+- Helps **identify key features** influencing predictions.
 
-- **📄 Report Generation**
-  - Export comprehensive reports in **HTML** with visualizations and statistical analysis.
-  - Model comparison with a summary of performance metrics.
+### ⚙️ Simulations & Sensitivity Analysis
+- **"What-if" scenario analysis** to assess variable impact.
+- Allows users to **adjust financial parameters** to evaluate prediction robustness.
 
-## 🛠️ Installation
+### 📊 Report Generation
+- Generates **detailed reports** in **HTML format** with:
+  - **Statistical summaries**, **model comparisons**, and **visual explanations**.
 
-1. **Clone the repository**
-   
-   ```sh
-   git clone https://github.com/your-username/credit-risk-model.git
-   cd credit-risk-model
-   ```
+## 🛠️ Installation Guide
 
-2. **Create a virtual environment (optional but recommended)**
-   
-   ```sh
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
+### Step 1: Clone the Repository
+```sh
+git clone https://github.com/your-username/credit-risk-model.git
+cd credit-risk-model
+```
 
-3. **Install dependencies**
-   
-   ```sh
-   pip install -r requirements.txt
-   ```
+### Step 2: Create a Virtual Environment (Recommended)
+```sh
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
-## ▶️ Usage
+### Step 3: Install Dependencies
+```sh
+pip install -r requirements.txt
+```
 
-To run the model and visualize the results:
+## ▶️ Running the Application
 
+To launch the interactive dashboard:
 ```sh
 streamlit run app.py
 ```
+Then, open the **Streamlit-provided link** in your browser.
 
-Access the Streamlit-provided link in your browser.
+## 🎥 Demonstration Video
+To see the model in action, watch the **demonstration video**:
+[📺 Google Drive - Credit Risk Model Demo](https://drive.google.com/file/d/1JUnzbx6KcSLbteSLVEbOgtbZjiHxFOS8/view?usp=share_link)
 
-### 📌 Project Structure
+## 🤝 How to Contribute
 
-```plaintext
-📦 credit-risk-model
- ┣ 📄 README.md             # Project documentation
- ┣ 📄 app.py                # Main dashboard script containing all project logic
- ┣ 📄 requirements.txt      # Project dependencies
- ┣ 📄 bankrisk_client_data.csv  # Sample dataset for testing
- ┣ 📄 media/                # Media folder containing a demonstration video
-     ┗ 📄 demo_video.mp4      # Video demonstrating the model usage (available at Google Drive link below)
-```
-
-### 🎥 Demonstration Video
-
-To better understand how the model works, watch the **demonstration video** available at:
-[Google Drive - Credit Risk Model Demo](https://drive.google.com/file/d/1JUnzbx6KcSLbteSLVEbOgtbZjiHxFOS8/view?usp=share_link)
-
-## 🤝 Contributing
-
-Contributions are welcome! To contribute:
+We welcome contributions! To contribute:
 1. **Fork** this repository.
 2. Create a new branch: `git checkout -b my-feature`.
-3. Make your changes and commit: `git commit -m 'My new feature'`.
-4. Push to GitHub: `git push origin my-feature`.
-5. Open a Pull Request.
+3. Implement your changes and commit: `git commit -m 'Added new feature'`.
+4. Push your branch: `git push origin my-feature`.
+5. Open a **Pull Request** and describe your changes.
 
-## 🐟 License
+### Possible Contributions:
+- Adding **new ML models** or improving feature engineering.
+- Enhancing **model interpretability** using new techniques.
+- Optimizing **performance and scalability**.
+- Improving **UI/UX** of the Streamlit dashboard.
 
-This project is distributed under the MIT license. See the LICENSE file for details.
+## 📜 License
+
+This project is licensed under the **MIT License**. See the **LICENSE** file for details.
 
 ---
 
-📌 *An advanced model for credit risk prediction using AI and Machine Learning.*
-
+📌 *A robust AI-powered model for credit risk prediction and explainability.*
