@@ -4,11 +4,11 @@ This project is an advanced model for credit risk analysis, developed with **Str
 
 ## 🚀 Features
 
-- **📂 Data Upload & Exploratory Data Analysis**
+- **🐂 Data Upload & Exploratory Data Analysis**
   - Supports CSV file uploads with automatic preprocessing.
   - Descriptive statistics and interactive visualizations of financial variables.
 
-- **📊 Predictive Modeling & Evaluation**
+- **💊 Predictive Modeling & Evaluation**
   - Implementation of supervised models for default prediction.
   - Supported algorithms: XGBoost, RandomForest, Gradient Boosting, AdaBoost, SVM, MLP, Naïve Bayes, and Logistic Regression.
   - Data balancing techniques such as SMOTE.
@@ -31,18 +31,21 @@ This project is an advanced model for credit risk analysis, developed with **Str
 ## 🛠️ Installation
 
 1. **Clone the repository**
+   
    ```sh
    git clone https://github.com/your-username/credit-risk-model.git
    cd credit-risk-model
    ```
 
 2. **Create a virtual environment (optional but recommended)**
+   
    ```sh
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
 3. **Install dependencies**
+   
    ```sh
    pip install -r requirements.txt
    ```
@@ -50,6 +53,7 @@ This project is an advanced model for credit risk analysis, developed with **Str
 ## ▶️ Usage
 
 To run the model and visualize the results:
+
 ```sh
 streamlit run app.py
 ```
@@ -57,13 +61,21 @@ streamlit run app.py
 Access the Streamlit-provided link in your browser.
 
 ### 📌 Project Structure
-```
+
+```plaintext
 📦 credit-risk-model
- ┣ 📜 README.md             # Project documentation
- ┣ 📜 app.py                # Main dashboard script containing all project logic
- ┣ 📜 requirements.txt      # Project dependencies
- ┣ 📜 bankrisk_client_data.csv  # Sample dataset for testing
+ ┣ 📄 README.md             # Project documentation
+ ┣ 📄 app.py                # Main dashboard script containing all project logic
+ ┣ 📄 requirements.txt      # Project dependencies
+ ┣ 📄 bankrisk_client_data.csv  # Sample dataset for testing
+ ┣ 📄 media/                # Media folder containing a demonstration video
+     ┗ 📄 demo_video.mp4      # Video demonstrating the model usage (available at Google Drive link below)
 ```
+
+### 🎥 Demonstration Video
+
+To better understand how the model works, watch the **demonstration video** available at:
+[Google Drive - Credit Risk Model Demo](https://drive.google.com/your-video-link)
 
 ## 🤝 Contributing
 
@@ -74,7 +86,7 @@ Contributions are welcome! To contribute:
 4. Push to GitHub: `git push origin my-feature`.
 5. Open a Pull Request.
 
-## 📜 License
+## 🐟 License
 
 This project is distributed under the MIT license. See the LICENSE file for details.
 
