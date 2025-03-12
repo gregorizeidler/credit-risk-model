@@ -75,7 +75,7 @@ Access the Streamlit-provided link in your browser.
 ### 🎥 Demonstration Video
 
 To better understand how the model works, watch the **demonstration video** available at:
-[Google Drive - Credit Risk Model Demo](https://drive.google.com/your-video-link)
+[Google Drive - Credit Risk Model Demo](https://drive.google.com/file/d/1JUnzbx6KcSLbteSLVEbOgtbZjiHxFOS8/view?usp=share_link)
 
 ## 🤝 Contributing
 
