@@ -31,46 +31,46 @@ This project is an advanced model for credit risk analysis, developed with **Str
 ## 🛠️ Installation
 
 1. **Clone the repository**
-   
-sh
+   ```sh
    git clone https://github.com/your-username/credit-risk-model.git
    cd credit-risk-model
+   ```
 
 2. **Create a virtual environment (optional but recommended)**
-   
-sh
+   ```sh
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
 
 3. **Install dependencies**
-   
-sh
+   ```sh
    pip install -r requirements.txt
-
+   ```
 
 ## ▶️ Usage
 
 To run the model and visualize the results:
-sh
+```sh
 streamlit run app.py
+```
 
 Access the Streamlit-provided link in your browser.
 
 ### 📌 Project Structure
+```
 📦 credit-risk-model
- ┣ 📂 data                  # CSV data files
- ┣ 📜 app.py                # Main dashboard script
- ┣ 📜 requirements.txt      # Project dependencies
  ┣ 📜 README.md             # Project documentation
-
+ ┣ 📜 app.py                # Main dashboard script containing all project logic
+ ┣ 📜 requirements.txt      # Project dependencies
+```
 
 ## 🤝 Contributing
 
 Contributions are welcome! To contribute:
 1. **Fork** this repository.
-2. Create a new branch: git checkout -b my-feature.
-3. Make your changes and commit: git commit -m 'My new feature'.
-4. Push to GitHub: git push origin my-feature.
+2. Create a new branch: `git checkout -b my-feature`.
+3. Make your changes and commit: `git commit -m 'My new feature'`.
+4. Push to GitHub: `git push origin my-feature`.
 5. Open a Pull Request.
 
 ## 📜 License
@@ -80,3 +80,4 @@ This project is distributed under the MIT license. See the LICENSE file for deta
 ---
 
 📌 *An advanced model for credit risk prediction using AI and Machine Learning.*
+
