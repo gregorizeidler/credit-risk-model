@@ -62,6 +62,7 @@ Access the Streamlit-provided link in your browser.
  ┣ 📜 README.md             # Project documentation
  ┣ 📜 app.py                # Main dashboard script containing all project logic
  ┣ 📜 requirements.txt      # Project dependencies
+ ┣ 📜 bankrisk_client_data.csv  # Sample dataset for testing
 ```
 
 ## 🤝 Contributing
