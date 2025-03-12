@@ -404,7 +404,6 @@ if page == "Advanced Explainability":
         
         st.subheader("SHAP Force Plot for a Single Instance")
         instance_index = st.slider("Select instance for Force Plot", 0, X_test.shape[0]-1, 0)
-        # For a matplotlib-based force plot, do not call shap.initjs() if IPython is not installed.
         force_fig = shap.force_plot(explainer.expected_value, shap_values.values[instance_index], 
                                       X_test.iloc[instance_index], matplotlib=True, show=False)
         st.pyplot(force_fig, bbox_inches="tight")
@@ -558,7 +557,8 @@ if page == "Advanced Interpretability Visualizations":
             explainer = shap.Explainer(best_model, X_train)
             shap_values = explainer(X_test)
             shap.waterfall_plot(shap_values[instance_idx])
-            st.pyplot(bbox_inches="tight")
+            fig_waterfall = plt.gcf()  # Get the current figure
+            st.pyplot(fig_waterfall, bbox_inches="tight")
             plt.clf()
         except Exception as e:
             st.error(f"Error generating Waterfall Chart: {e}")
