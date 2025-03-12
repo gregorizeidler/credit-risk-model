@@ -1,17 +1,15 @@
-# Credit Risk Analysis Model
-
-## 📌 Overview
-
-This project is an advanced machine learning-based model for **credit risk analysis**, leveraging **Streamlit**, **scikit-learn**, **XGBoost**, **SHAP**, **LIME**, and other data science libraries. It facilitates **data ingestion**, **feature engineering**, **predictive modeling**, and **model explainability**, featuring interactive visualizations and scenario-based simulations.
-
-## 🚀 Key Features
-
-### 📂 Data Upload & Exploratory Data Analysis (EDA)
-- Supports **CSV file uploads** with automated preprocessing.
-- Provides **descriptive statistics** and **interactive visualizations** for financial variables.
-- Detects and handles **missing values**, **outliers**, and **feature correlations**.
-
 ### 💡 Predictive Modeling & Evaluation
+- Implements **supervised machine learning models** for credit default prediction.
+- Previously supported models:
+  - **XGBoost, RandomForest, Gradient Boosting, AdaBoost, SVM, MLP, Naïve Bayes, and Logistic Regression**.
+- Now enhanced with:
+  - **Expanded feature engineering techniques** to improve model accuracy.
+  - **More robust hyperparameter tuning** for better optimization.
+  - **Integrated ensemble strategies** to improve prediction stability.
+- Integrates **SMOTE** for handling imbalanced datasets.
+- Includes performance evaluation metrics:
+  - **Accuracy, AUC-ROC, Precision, Recall, F1-score, Confusion Matrix, and Lift Curve**.
+- Offers **hyperparameter tuning** to optimize model performance dynamically.
 - Implements **supervised machine learning models** for credit default prediction.
 - Supports multiple algorithms:
   - **XGBoost, RandomForest, Gradient Boosting, AdaBoost, SVM, MLP, Naïve Bayes, and Logistic Regression**.
@@ -87,3 +85,4 @@ This project is licensed under the **MIT License**. See the **LICENSE** file for
 ---
 
 📌 *A robust AI-powered model for credit risk prediction and explainability.*
+
