@@ -2,7 +2,7 @@
 
 ## 📌 Overview
 
-This project is an advanced machine learning-based model for **credit risk analysis**, leveraging **Streamlit**, **scikit-learn**, **XGBoost**, **SHAP**, **LIME**, and other data science libraries. It facilitates **data ingestion**, **feature engineering**, **predictive modeling**, and **model explainability**, featuring interactive visualizations, scenario-based simulations, and a dynamic virtual assistant for project insights.
+This project is an advanced machine learning-based model for **credit risk analysis**, leveraging **Streamlit**, **scikit-learn**, **XGBoost**, **SHAP**, **LIME**, and other data science libraries. It facilitates **data ingestion**, **feature engineering**, **predictive modeling**, and **model explainability**, featuring interactive visualizations and scenario-based simulations.
 
 ## 🚀 Key Features
 
@@ -30,25 +30,19 @@ This project is an advanced machine learning-based model for **credit risk analy
 - **"What-if" scenario analysis** to assess variable impact.
 - Allows users to **adjust financial parameters** to evaluate prediction robustness.
 
-### 🛡️ Virtual Assistant for Project Insights
-- A **Virtual Assistant** powered by GPT-4 enables interactive Q&A about any aspect of the project.
-- Leverages all available project data (client details, approval criteria, model performance, etc.) to provide detailed, data-driven responses.
-- Example questions:
-  - "Should I approve client 123? Why or why not?"
-  - "Which model is best for predicting credit risk in our dataset?"
-
 ### 📊 Report Generation
 - Generates **detailed reports** in **HTML format** with:
   - **Statistical summaries**, **model comparisons**, and **visual explanations**.
 
 ### 🧠 Executive Summary with AI
-- Uses **GPT-4** to generate high-level executive summaries of model performance.
-- Summarizes:
-  - **Key model metrics** (accuracy, AUC-ROC, precision, recall, etc.).
-  - **SHAP insights** on key features influencing credit risk decisions.
-  - **Client distribution analysis** (approved vs. rejected clients based on credit utilization and financial stability score).
-  - **Recommendations** based on AI-driven insights.
-- Provides both **technical** and **operational** reports tailored to different stakeholders.
+- Uses **OpenAI GPT-4** to generate an **executive summary** of model insights.
+- Provides a **technical report** and **operational report** based on model findings.
+- Automatically summarizes **feature importance**, **client approval trends**, and **model performance**.
+
+### 🛡️ Virtual Assistant for Project Insights
+- An **AI-powered virtual assistant** to answer project-related questions.
+- Uses **model predictions**, **feature importance**, and **historical decisions** to generate insights.
+- Helps users analyze **specific clients**, **approval criteria**, and **model strengths**.
 
 ## 🛠️ Installation Guide
 
@@ -79,7 +73,8 @@ Then, open the **Streamlit-provided link** in your browser.
 
 ## 🎥 Demonstration Video
 To see the model in action, watch the **demonstration video**:
-[📺 Google Drive - Credit Risk Model Demo](https://drive.google.com/file/d/1JUnzbx6KcSLbteSLVEbOgtbZjiHxFOS8/view?usp=share_link)
+- [📺 Main Project Features](https://drive.google.com/file/d/1JUnzbx6KcSLbteSLVEbOgtbZjiHxFOS8/view?usp=share_link)
+- [📺 Executive Summary & Virtual Assistant](https://drive.google.com/file/d/1CYCaKSVsauw9BwV9khUtp1YhgHe9K_Uz/view?usp=sharing)
 
 ## 🤝 How to Contribute
 
@@ -95,7 +90,6 @@ We welcome contributions! To contribute:
 - Enhancing **model interpretability** using new techniques.
 - Optimizing **performance and scalability**.
 - Improving **UI/UX** of the Streamlit dashboard.
-- Expanding the **Virtual Assistant** to leverage more detailed project data.
 
 ## 📜 License
 
@@ -103,4 +97,4 @@ This project is licensed under the **MIT License**. See the **LICENSE** file for
 
 ---
 
-📌 *A robust AI-powered model for credit risk prediction, explainability, and interactive project insights.*
+📌 *A robust AI-powered model for credit risk prediction and explainability.*
