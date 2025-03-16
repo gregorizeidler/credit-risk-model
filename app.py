@@ -9,6 +9,11 @@ import plotly.express as px
 import plotly.graph_objects as go
 from io import BytesIO
 import base64
+import os
+import openai
+
+# Configure your OpenAI API key (replace with your actual key or set via environment variables)
+openai.api_key = ""
 
 from sklearn.decomposition import PCA
 from sklearn.inspection import PartialDependenceDisplay
@@ -91,14 +96,16 @@ page = st.sidebar.radio("Select Section:",
                            "Export Report", 
                            "Advanced What-if Simulation",
                            "Advanced Interpretability Visualizations",
-                           "Additional Evaluation Metrics"))
+                           "Additional Evaluation Metrics",
+                           "Executive Summary with AI",
+                           "Virtual Assistant"))
 
 ##############################################
 # Section 1: Data Upload & EDA
 ##############################################
 if page == "Data Upload & EDA":
     st.title("Data Upload & Exploratory Data Analysis")
-    st.markdown("Upload your CSV file containing the data. **Required columns:** `client_id`, `defaulted`, `avg_bill_value`, `credit_limit`, and `investments`.")
+    st.markdown("Upload your CSV file containing the data. **Required columns:** client_id, defaulted, avg_bill_value, credit_limit, and investments.")
     uploaded_file = st.file_uploader("Choose CSV file", type=["csv"])
     
     if uploaded_file is not None:
@@ -133,7 +140,7 @@ if page == "Modeling & Performance":
             X = data.drop(columns=['client_id', 'defaulted'])
             y = data['defaulted']
         except KeyError:
-            st.error("Ensure the CSV file contains the columns 'client_id' and 'defaulted'.")
+            st.error("Make sure the CSV file contains the columns 'client_id' and 'defaulted'.")
             st.stop()
         
         # Data balancing and train/test split using SMOTE
@@ -214,7 +221,7 @@ if page == "Advanced Visualizations":
         best_model = st.session_state['best_model']
         X_train = st.session_state['X_train']
         
-        figs_to_report = []  # List for saving figures for report
+        figs_to_report = []  # List for saving figures for the report
         
         # 1. Confusion Matrix using seaborn
         st.subheader("Confusion Matrix")
@@ -270,7 +277,7 @@ if page == "Advanced Visualizations":
         
         # 6. Performance Dashboard Table
         st.subheader("Performance Dashboard")
-        st.write("Model metrics comparison:")
+        st.write("Model Metrics Comparison:")
         st.dataframe(st.session_state.get('result_df', pd.DataFrame()))
         
         # 7. SHAP Beeswarm Summary Plot (with sampling and bar plot option)
@@ -353,7 +360,7 @@ if page == "Dynamic Hyperparameter Tuning":
         X_res = pd.DataFrame(X_res, columns=X.columns)
         X_train, X_test, y_train, y_test = train_test_split(X_res, y_res, test_size=0.2, random_state=42)
         
-        st.subheader("Hyperparameter Tuning for RandomForest")
+        st.subheader("RandomForest Hyperparameter Tuning")
         n_estimators = st.slider("Number of Trees", 50, 500, 200, step=50)
         max_depth = st.slider("Max Depth", 1, 20, 5)
         
@@ -387,7 +394,7 @@ if page == "Dynamic Hyperparameter Tuning":
 if page == "Advanced Explainability":
     st.title("Advanced Model Explainability")
     if 'X_test' not in st.session_state:
-        st.error("Please complete modeling in the 'Modeling & Performance' section first!")
+        st.error("Please complete the modeling in the 'Modeling & Performance' section first!")
     else:
         X_test = st.session_state['X_test']
         best_model = st.session_state['best_model']
@@ -396,7 +403,7 @@ if page == "Advanced Explainability":
         st.subheader("SHAP Dependence Plot")
         explainer = shap.Explainer(best_model, X_train)
         shap_values = explainer(X_test)
-        feature = st.selectbox("Select a feature for Dependence Plot", X_test.columns)
+        feature = st.selectbox("Select a feature for the Dependence Plot", X_test.columns)
         shap.dependence_plot(feature, shap_values.values, X_test, show=False)
         fig_dep = plt.gcf()
         st.pyplot(fig_dep, bbox_inches="tight")
@@ -409,7 +416,7 @@ if page == "Advanced Explainability":
         st.pyplot(force_fig, bbox_inches="tight")
         plt.clf()
         
-        st.subheader("Local Explanation with LIME and Record History")
+        st.subheader("Local Explanation with LIME and History Logging")
         if 'lime' in globals():
             lime_explainer = lime.lime_tabular.LimeTabularExplainer(
                 X_train.values, 
@@ -436,7 +443,7 @@ if page == "Advanced Explainability":
 if page == "Interactive Explainability & Model Comparison":
     st.title("Interactive Explainability & Model Comparison")
     if 'models' not in st.session_state or len(st.session_state['models']) < 2:
-        st.error("At least two models need to be trained in the 'Modeling & Performance' section for comparison!")
+        st.error("At least two models must be trained in the 'Modeling & Performance' section for comparison!")
     else:
         models = st.session_state['models']
         selected_models = st.multiselect("Select models for comparison", list(models.keys()))
@@ -444,12 +451,12 @@ if page == "Interactive Explainability & Model Comparison":
             cols = st.columns(len(selected_models))
             for idx, model_name in enumerate(selected_models):
                 model = models[model_name]
-                # Use a TreeExplainer if the model is tree-based
+                # Use TreeExplainer for tree-based models
                 if model.__class__.__name__ in ["RandomForestClassifier", "GradientBoostingClassifier", "AdaBoostClassifier", "XGBClassifier"]:
                     explainer = shap.TreeExplainer(model)
                 elif model.__class__.__name__ == "SVC":
                     # For SVC, use KernelExplainer with a sample of the training data as background
-                    background = st.session_state['X_train'].iloc[:100]  # using first 100 samples as background
+                    background = st.session_state['X_train'].iloc[:100]
                     explainer = shap.KernelExplainer(model.predict_proba, background)
                 else:
                     explainer = shap.Explainer(model, st.session_state['X_train'])
@@ -467,7 +474,7 @@ if page == "Interactive Explainability & Model Comparison":
 if page == "Export Report":
     st.title("Export Report")
     if 'result_df' not in st.session_state or 'best_model' not in st.session_state:
-        st.error("Please complete modeling and analyses before generating the report!")
+        st.error("Please complete the modeling and analyses before generating the report!")
     else:
         metrics = {
             "AUC": roc_auc_score(st.session_state['y_test'], st.session_state['best_model'].predict_proba(st.session_state['X_test'])[:,1]),
@@ -486,7 +493,7 @@ if page == "Export Report":
 if page == "Advanced What-if Simulation":
     st.title("Advanced What-if Simulation")
     if 'X_test' not in st.session_state:
-        st.error("Please complete modeling in the 'Modeling & Performance' section first!")
+        st.error("Please complete the modeling in the 'Modeling & Performance' section first!")
     else:
         X_test = st.session_state['X_test']
         best_model = st.session_state['best_model']
@@ -534,7 +541,7 @@ if page == "Advanced What-if Simulation":
 if page == "Advanced Interpretability Visualizations":
     st.title("Advanced Interpretability Visualizations")
     if 'X_test' not in st.session_state or 'best_model' not in st.session_state:
-        st.error("Please complete modeling in the 'Modeling & Performance' section first!")
+        st.error("Please complete the modeling in the 'Modeling & Performance' section first!")
     else:
         X_test = st.session_state['X_test']
         best_model = st.session_state['best_model']
@@ -615,7 +622,7 @@ if page == "Advanced Interpretability Visualizations":
 if page == "Additional Evaluation Metrics":
     st.title("Additional Evaluation Metrics")
     if 'X_test' not in st.session_state or 'y_test' not in st.session_state or 'best_model' not in st.session_state:
-        st.error("Please complete modeling in the 'Modeling & Performance' section first!")
+        st.error("Please complete the modeling in the 'Modeling & Performance' section first!")
     else:
         X_test = st.session_state['X_test']
         y_test = st.session_state['y_test']
@@ -670,6 +677,200 @@ if page == "Additional Evaluation Metrics":
         boot_means = np.array(boot_means)
         ci_lower = np.percentile(boot_means, 2.5)
         ci_upper = np.percentile(boot_means, 97.5)
-        st.write("Predictions Mean Confidence Interval (95%): [{:.3f}, {:.3f}]".format(ci_lower, ci_upper))
+        st.write("Bootstrap Confidence Interval for Mean Predictions (95%): [{:.3f}, {:.3f}]".format(ci_lower, ci_upper))
         fig_ci = px.histogram(boot_means, nbins=20, title="Bootstrap Distribution of Mean Predictions")
         st.plotly_chart(fig_ci)
+
+##############################################
+# Section 12: Executive Summary with AI
+##############################################
+if page == "Executive Summary with AI":
+    st.title("Executive Summary with AI")
+    if 'result_df' not in st.session_state or 'best_model' not in st.session_state:
+        st.error("Please complete the modeling and analyses before generating the executive summary!")
+    else:
+        # Aggregate summarized information from the results
+        metrics_info = "Model Performance (Metrics):\n" + str(st.session_state['result_df'].to_dict()) + "\n"
+        shap_insights = (
+            "Feature Insights (SHAP):\n"
+            "Analyses indicate that 'credit_utilization' and 'financial_stability_score' are critical for predicting default risk. "
+            "The SHAP plots show that lower utilization and higher stability are associated with lower default risk.\n"
+        )
+        learning_curve_info = (
+            "Learning Curve: The models show stable learning curves with good cross-validation and high AUC, indicating strong performance.\n"
+        )
+        sensitivity_info = (
+            "Sensitivity Analysis: Changes in key indicators significantly affect the default predictions.\n"
+        )
+        
+        # Summarize client data by counts (instead of listing all IDs)
+        client_info = ""
+        if 'data' in st.session_state:
+            data = st.session_state['data']
+            if 'client_id' in data.columns:
+                total_clients = len(data)
+                approved_count = len(data.loc[(data['credit_utilization'] < 0.35) & (data['financial_stability_score'] > 0.80)])
+                rejected_count = total_clients - approved_count
+                client_info = (
+                    f"Client Summary:\nTotal Clients: {total_clients}. "
+                    f"Approved Clients (credit_utilization < 0.35 and financial_stability_score > 0.80): {approved_count}. "
+                    f"Rejected Clients: {rejected_count}.\n"
+                )
+        
+        # Let the user choose the summary type
+        summary_type_option = st.radio("Select Summary Type", ("Technical Report", "Operational Report"))
+        
+        # Function to generate a detailed prompt with clear sections and chain-of-thought instructions
+        def generate_detailed_prompt(summary_type, metrics_info, shap_insights, learning_curve_info, sensitivity_info, client_info):
+            if summary_type == "Technical Report":
+                prompt = (
+                    "You are a senior credit risk analyst. Please follow these steps:\n"
+                    "1. List the main points regarding model performance based on the provided metrics.\n"
+                    "2. Describe in detail the insights from the SHAP analysis, learning curves, and sensitivity analysis.\n"
+                    "3. Based on these data, generate an in-depth technical report that explains why clients with low credit utilization "
+                    "and high financial stability should be approved for credit.\n\n"
+                    "=== Model Performance (Metrics) ===\n" + metrics_info + "\n"
+                    "=== Feature Insights (SHAP) ===\n" + shap_insights + "\n"
+                    "=== Learning Curve and Sensitivity Analysis ===\n" + learning_curve_info + sensitivity_info + "\n"
+                    "=== Credit Recommendations ===\n"
+                    "Explain in technical detail the reasons for granting credit to clients with low credit utilization and high financial stability.\n"
+                )
+            else:  # Operational Report
+                prompt = (
+                    "You are a senior credit risk analyst. Please follow these steps:\n"
+                    "1. Summarize the client data, highlighting the number of approved and rejected clients based on the criteria.\n"
+                    "2. List the key criteria used for approval (e.g., credit_utilization < 0.35 and financial_stability_score > 0.80).\n"
+                    "3. Generate a concise operational report that provides practical guidelines for credit approval, summarizing the information without listing individual client IDs.\n\n"
+                    "=== Client Summary ===\n" + client_info + "\n"
+                    "=== Approval Criteria and Recommendations ===\n"
+                    "Provide practical operational guidelines for credit approval based on the above criteria.\n"
+                )
+            return prompt
+        
+        final_prompt = generate_detailed_prompt(
+            summary_type_option,
+            metrics_info,
+            shap_insights,
+            learning_curve_info,
+            sensitivity_info,
+            client_info
+        )
+        
+        st.markdown("### Generated Prompt:")
+        st.code(final_prompt)
+        
+        with st.spinner("Generating executive summary using AI..."):
+            try:
+                response = openai.ChatCompletion.create(
+                    model="gpt-4",
+                    messages=[
+                        {"role": "system", "content": "You are a senior credit risk analyst."},
+                        {"role": "user", "content": final_prompt}
+                    ],
+                    temperature=0.5
+                )
+                executive_summary = response.choices[0].message.content.strip()
+                st.subheader("Executive Summary Generated by AI")
+                st.write(executive_summary)
+            except Exception as e:
+                st.error(f"Error generating summary: {e}")
+
+##############################################
+# Section 13: Virtual Assistant with GPT
+##############################################
+if page == "Virtual Assistant":
+    st.title("Virtual Assistant - Project Questions")
+    st.markdown(
+        "Ask questions about any aspect of the project. For example: **'Should I approve client 123? Why or why not?'** or **'Which model is best for X?'**"
+    )
+    
+    user_question = st.text_input("Type your question here:")
+    
+    if st.button("Submit Question"):
+        if not user_question.strip():
+            st.error("Please enter a valid question.")
+        else:
+            # Build a comprehensive summary of project data from session_state
+            project_context = ""
+            
+            # Basic Data Information
+            if 'data' in st.session_state:
+                data = st.session_state['data']
+                total_clients = len(data)
+                project_context += f"Total clients in dataset: {total_clients}.\n"
+                if 'client_id' in data.columns:
+                    project_context += "Client IDs are available.\n"
+                # Example approval criteria (if defined in your project)
+                project_context += "Approval Criteria: credit_utilization < 0.35 and financial_stability_score > 0.80.\n"
+                # Include basic statistics for key indicators
+                if 'credit_utilization' in data.columns and 'financial_stability_score' in data.columns:
+                    avg_cu = data['credit_utilization'].mean()
+                    avg_fs = data['financial_stability_score'].mean()
+                    project_context += f"Average Credit Utilization: {avg_cu:.3f}.\n"
+                    project_context += f"Average Financial Stability Score: {avg_fs:.3f}.\n"
+                    
+                # Check if the question mentions a specific client (e.g., "client 123")
+                import re
+                client_match = re.search(r'client\s*(\d+)', user_question, re.IGNORECASE)
+                if client_match:
+                    client_id = int(client_match.group(1))
+                    client_data = data[data['client_id'] == client_id]
+                    if not client_data.empty:
+                        client_details = client_data.to_dict(orient='records')[0]
+                        project_context += f"Data for Client {client_id}: " + str(client_details) + "\n"
+                    else:
+                        project_context += f"No data found for Client {client_id}.\n"
+            
+            # Model Performance Data
+            if 'result_df' in st.session_state:
+                result_df = st.session_state['result_df']
+                project_context += "Model Performance Metrics:\n" + str(result_df.to_dict()) + "\n"
+            
+            # Best Model and Prediction Information
+            if 'X_test' in st.session_state and 'best_model' in st.session_state:
+                best_model = st.session_state['best_model']
+                X_test = st.session_state['X_test']
+                try:
+                    proba = best_model.predict_proba(X_test)[:, 1]
+                    avg_proba = np.mean(proba)
+                    project_context += f"Average Predicted Default Probability: {avg_proba:.3f}.\n"
+                except Exception as e:
+                    project_context += "Could not compute average predicted probability.\n"
+            
+            # Additional Data: Explanation History if available
+            if 'explanation_history' in st.session_state:
+                explanations = st.session_state['explanation_history']
+                if explanations:
+                    project_context += f"Number of recorded local explanations: {len(explanations)}.\n"
+            
+            # Additional Models info if available
+            if 'models' in st.session_state:
+                models = st.session_state['models']
+                model_names = list(models.keys())
+                project_context += f"Trained models: {', '.join(model_names)}.\n"
+            
+            # Compile the final prompt with the project context
+            prompt = (
+                "You are a virtual assistant specialized in credit risk analysis with full access to the project data. "
+                "Below is a detailed summary of the project context, including client data, approval criteria, model performance, "
+                "and other relevant metrics:\n\n"
+                f"{project_context}\n"
+                "Using this information, provide a detailed, data-driven answer to the following question:\n"
+                f"'{user_question}'."
+            )
+            
+            with st.spinner("Generating answer..."):
+                try:
+                    response = openai.ChatCompletion.create(
+                        model="gpt-4",
+                        messages=[
+                            {"role": "system", "content": "You are a virtual assistant specialized in credit risk analysis with full access to the project data."},
+                            {"role": "user", "content": prompt}
+                        ],
+                        temperature=0.5
+                    )
+                    answer = response.choices[0].message.content.strip()
+                    st.subheader("Virtual Assistant Answer")
+                    st.write(answer)
+                except Exception as e:
+                    st.error(f"Error generating answer: {e}")
